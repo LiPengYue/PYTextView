@@ -17,8 +17,8 @@ open class PYTextView: UIView, UITextViewDelegate {
     /// 下拉多少时候需要关闭编辑
     open var pullDownMarginEndEdit: CGFloat = 10
     
-    /// 可以输入的最大字数
-    open var maxNumberOfWords = 350
+    /// 可以输入的最大字数 如果小于 0那么不再制约输入字数
+    open var maxNumberOfWords = -1
     ///placeholder
     open var placeholder = "写几句评论吧..." {
         didSet{ placeholderLabel.text = placeholder } }
@@ -210,7 +210,8 @@ open class PYTextView: UIView, UITextViewDelegate {
         let range = NSRange.init(location: length - 1, length: 1)
         textView.scrollRangeToVisible(range)
         
-        if (length > maxNumberOfWords
+        if (maxNumberOfWords >= 0
+            && length > maxNumberOfWords
             && (textView.markedTextRange == nil)) {
             
             textView.text = NSString(string: textView.text).substring(with: NSRange.init(location: 0, length: maxNumberOfWords))
