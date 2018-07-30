@@ -13,8 +13,7 @@ class ViewController: UIViewController {
         let textView = PYTextView.init(frame: .zero)
         textView.placeholderFont = UIFont.systemFont(ofSize: 17)
         textView.font = UIFont.systemFont(ofSize: 20)
-        //        textView.textColor = 0x333333.color()
-        //        textView.placeholderColor = 0xcccccc.color()
+        textView.isDownScrollEndEdit = true 
         textView.placeholder = "请写出您对本产品的意见或看法（120字以内）"
         textView.textContainerInset = UIEdgeInsets.init(
             top: 17,
@@ -24,7 +23,6 @@ class ViewController: UIViewController {
         )
         
         textView.placeholderLabelEdg = UIEdgeInsets.init(top: 0, left: 8, bottom: 0, right: 0)
-        textView.isDownScrollEndEdi = true
         textView.setBottomDescreptionFunc({ (index, maxIndex) -> (NSAttributedString) in
             let countStr = "\(index)"
             
@@ -51,7 +49,7 @@ class ViewController: UIViewController {
             
             return attributedstr
         })
-        textView.maxNumberOfWords = 12
+        textView.maxNumberOfWords = 1200
         textView.backgroundColor = UIColor.white
         return textView
     }()

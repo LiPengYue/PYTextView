@@ -12,7 +12,11 @@ import Foundation
 open class PYTextView: UIView, UITextViewDelegate {
     
     /// 向下滑动，关闭编辑
-    open var isDownScrollEndEdi: Bool = false
+    open var isDownScrollEndEdit: Bool = false
+    
+    /// 下拉多少时候需要关闭编辑
+    open var pullDownMarginEndEdit: CGFloat = 10
+    
     /// 可以输入的最大字数
     open var maxNumberOfWords = 350
     ///placeholder
@@ -243,14 +247,38 @@ open class PYTextView: UIView, UITextViewDelegate {
         margin = margin <= 0 ? 0 : margin
         textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: margin, right: 0)
     }
-    
+    var panPointStart: CGPoint = .zero
+    var panPoint: CGPoint = .zero
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentOffset" {
+            let state = textView.panGestureRecognizer.state
+            switch state {
+                
+            case .possible:fallthrough
+            case .began:
+                panPointStart = textView.contentOffset
+            case .changed:fallthrough
+            case .cancelled:fallthrough
+            case .failed:fallthrough
+            case .ended: break
+            }
+            
+            if (textView.contentOffset.y - panPointStart.y) < -pullDownMarginEndEdit {
+                
+                self.endEditing(true)
+            }
+        }
+        
+        //        }
+    }
     
     
     //MARK: - property
     lazy var textView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 14)
-        textView.delegate = self
+        
+        textView.addObserver(self, forKeyPath: "contentOffset", options: .new, context: nil)
         return textView
     }()
     ///懒加载 还可以输入 x 个字
@@ -296,6 +324,7 @@ open class PYTextView: UIView, UITextViewDelegate {
     }
     deinit {
         NotificationCenter.default.removeObserver(self)
+        textView.removeObserver(self, forKeyPath: "contentOffset")
     }
 }
 
