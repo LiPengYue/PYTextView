@@ -49,7 +49,7 @@ class ViewController: UIViewController {
             
             return attributedstr
         })
-        textView.maxNumberWords = 1200
+        textView.maxWords = 1200
         textView.backgroundColor = UIColor.white
         return textView
     }()
