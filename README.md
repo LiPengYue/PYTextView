@@ -36,7 +36,7 @@ open var isDownScrollEndEdit: Bool = false
 open var pullDownMarginEndEdit: CGFloat = 10
 
 /// 可以输入的最大字数 如果小于 0那么不再制约输入字数
-open var maxNumberOfWords = -1
+open var maxNumberWords = -1
 ///placeholder
 open var placeholder = "写几句评论吧..." {
 didSet{ placeholderLabel.text = placeholder } }
@@ -73,9 +73,9 @@ open var textContainerInset: UIEdgeInsets = .zero { didSet { didSetTextContainer
 /// 设置底部剩余输入字数的 描述
 ///
 /// - surplusCount: 剩余字数
-/// - maxNumberOfWords: 总数
+/// - maxNumberWords: 总数
 
-open func setBottomDescreptionFunc(_ setBottomDescreptionCallBack:((_ surplusCount: NSInteger, _ maxNumberOfWords: NSInteger)->(NSAttributedString))?) {
+open func setBottomDescreptionFunc(_ setBottomDescreptionCallBack:((_ surplusCount: NSInteger, _ maxNumberWords: NSInteger)->(NSAttributedString))?) {
 self.setBottomDescreptionCallBack = setBottomDescreptionCallBack
 }
 

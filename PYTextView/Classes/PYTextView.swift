@@ -18,7 +18,7 @@ open class PYTextView: UIView, UITextViewDelegate {
     open var pullDownMarginEndEdit: CGFloat = 10
     
     /// 可以输入的最大字数 如果小于 0那么不再制约输入字数
-    open var maxNumberOfWords = -1
+    open var maxNumberWords: NSInteger = -1
     ///placeholder
     open var placeholder = "写几句评论吧..." {
         didSet{ placeholderLabel.text = placeholder } }
@@ -51,7 +51,7 @@ open class PYTextView: UIView, UITextViewDelegate {
     open var textContainerInset: UIEdgeInsets = .zero { didSet { didSetTextContainerInset() } }
     
     ///设置底部的剩余输入字数描述 字符
-    var setBottomDescreptionCallBack:((_ surplusCount: NSInteger, _ maxNumberOfWords: NSInteger)->(NSAttributedString))?
+    var setBottomDescreptionCallBack:((_ surplusCount: NSInteger, _ maxNumberWords: NSInteger)->(NSAttributedString))?
     ///已经改变的时候调用
     var changedTextCallBack: ((_ textView: UITextView, _ text: String)->())?
     var txtRemarkDidEndEditingCallBack: ((_ textView: UITextView, _ text: String)->())?
@@ -60,9 +60,9 @@ open class PYTextView: UIView, UITextViewDelegate {
     /// 设置底部剩余输入字数的 描述
     ///
     /// - surplusCount: 剩余字数
-    /// - maxNumberOfWords: 总数
+    /// - maxNumberWords: 总数
     
-    open func setBottomDescreptionFunc(_ setBottomDescreptionCallBack:((_ surplusCount: NSInteger, _ maxNumberOfWords: NSInteger)->(NSAttributedString))?) {
+    open func setBottomDescreptionFunc(_ setBottomDescreptionCallBack:((_ surplusCount: NSInteger, _ maxNumberWords: NSInteger)->(NSAttributedString))?) {
         self.setBottomDescreptionCallBack = setBottomDescreptionCallBack
     }
     
@@ -191,10 +191,10 @@ open class PYTextView: UIView, UITextViewDelegate {
     private var isFirst: Bool = true
     override open func layoutSubviews() {
         if isFirst {
-            var surplusCount = (maxNumberOfWords - textView.text.count)
+            var surplusCount = (maxNumberWords - textView.text.count)
             surplusCount = surplusCount <= 0 ? 0 : surplusCount
-            surplusCount = surplusCount >= maxNumberOfWords ? maxNumberOfWords : surplusCount
-            remainWordsLabel.attributedText = setBottomDescreptionCallBack?(surplusCount,maxNumberOfWords)
+            surplusCount = surplusCount >= maxNumberWords ? maxNumberWords : surplusCount
+            remainWordsLabel.attributedText = setBottomDescreptionCallBack?(surplusCount,maxNumberWords)
             textView.backgroundColor = self.backgroundColor
             isFirst = false
         }
@@ -210,18 +210,18 @@ open class PYTextView: UIView, UITextViewDelegate {
         let range = NSRange.init(location: length - 1, length: 1)
         textView.scrollRangeToVisible(range)
         
-        if (maxNumberOfWords >= 0
-            && length > maxNumberOfWords
+        if (maxNumberWords >= 0
+            && length > maxNumberWords
             && (textView.markedTextRange == nil)) {
             
-            textView.text = NSString(string: textView.text).substring(with: NSRange.init(location: 0, length: maxNumberOfWords))
-            remainWordsLabel.attributedText = setBottomDescreptionCallBack?(0,maxNumberOfWords)
+            textView.text = NSString(string: textView.text).substring(with: NSRange.init(location: 0, length: maxNumberWords))
+            remainWordsLabel.attributedText = setBottomDescreptionCallBack?(0,maxNumberWords)
             textView.undoManager?.removeAllActions()
             
         } else if (textView.markedTextRange == nil) {
-            var length = (maxNumberOfWords - textView.text.count)
+            var length = (maxNumberWords - textView.text.count)
             length = length < 0 ? 0 : length
-            remainWordsLabel.attributedText = setBottomDescreptionCallBack?( length,maxNumberOfWords)
+            remainWordsLabel.attributedText = setBottomDescreptionCallBack?( length,maxNumberWords)
         }
         
         changedTextCallBack?(textView,textView.text)
@@ -287,7 +287,7 @@ open class PYTextView: UIView, UITextViewDelegate {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
-        label.attributedText = self.setBottomDescreptionCallBack?(maxNumberOfWords,maxNumberOfWords)
+        label.attributedText = self.setBottomDescreptionCallBack?(maxNumberWords,maxNumberWords)
         label.textColor = UIColor.init(red: 51.0/225,
                                        green: 51.0/225,
                                        blue: 51.0/225,
@@ -313,10 +313,10 @@ open class PYTextView: UIView, UITextViewDelegate {
         textView.text = text
         if (text != "") {
             placeholderLabel.isHidden = true
-            var surplusCount = (maxNumberOfWords - text.count)
+            var surplusCount = (maxNumberWords - text.count)
             surplusCount = surplusCount <= 0 ? 0 : surplusCount
-            surplusCount = surplusCount >= maxNumberOfWords ? maxNumberOfWords : surplusCount
-            remainWordsLabel.attributedText = setBottomDescreptionCallBack?(surplusCount,maxNumberOfWords)
+            surplusCount = surplusCount >= maxNumberWords ? maxNumberWords : surplusCount
+            remainWordsLabel.attributedText = setBottomDescreptionCallBack?(surplusCount,maxNumberWords)
         }
     }
     
