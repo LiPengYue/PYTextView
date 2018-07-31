@@ -49,7 +49,7 @@ class ViewController: UIViewController {
             
             return attributedstr
         })
-//        textView.maxWords = 1200
+        textView.maxWords = 1200
         textView.backgroundColor = UIColor.white
         return textView
     }()
@@ -65,4 +65,6 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
 }

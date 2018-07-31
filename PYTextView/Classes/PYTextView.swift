@@ -11,7 +11,7 @@ import UIKit
 open class PYTextView: UIView, UITextViewDelegate {
     
     /// 最大字符
-    var maxWords: NSInteger = -1
+    open var maxWords: NSInteger = -1
     
     /// 向下滑动，关闭编辑
     open var isDownScrollEndEdit: Bool = false
@@ -310,13 +310,12 @@ open class PYTextView: UIView, UITextViewDelegate {
     
     private func setText(text: String) {
         textView.text = text
-        if (text != "") {
-            placeholderLabel.isHidden = true
-            var surplusCount = (maxWords - text.count)
-            surplusCount = surplusCount <= 0 ? 0 : surplusCount
-            surplusCount = surplusCount >= maxWords ? maxWords : surplusCount
-            remainWordsLabel.attributedText = setBottomDescreptionCallBack?(surplusCount,maxWords)
-        }
+        placeholderLabel.isHidden = true
+        var surplusCount = (maxWords - text.count)
+        surplusCount = surplusCount <= 0 ? 0 : surplusCount
+        surplusCount = surplusCount >= maxWords ? maxWords : surplusCount
+        remainWordsLabel.attributedText = setBottomDescreptionCallBack?(surplusCount,maxWords)
+        changedTextCallBack?(textView,text)
     }
     
     private func c_0x333333() -> UIColor {
