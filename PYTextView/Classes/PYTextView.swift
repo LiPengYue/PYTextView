@@ -43,7 +43,7 @@ open class PYTextView: UIView, UITextViewDelegate {
     open var remainWordsLabelEdg: UIEdgeInsets = .zero { didSet { layoutRemainWords() } }
     
     /// 剩余字数label的高度 默认为 font（pingfangR： 14） height为 17pt
-    open var remainWordsLabelHeight: CGFloat = 17 { didSet { layoutRemainWords() } }
+    open var remainWordsLabelHeight: CGFloat = 0 { didSet { layoutRemainWords() } }
     
     /// placeholder 边距
     open var placeholderLabelEdg: UIEdgeInsets = UIEdgeInsets.init(
