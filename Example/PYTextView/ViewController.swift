@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         textView.textContainerInset = UIEdgeInsets.init(
             top: 17,
             left: 17,
-            bottom: 17,
+            bottom: 0,
             right: 17
         )
         
@@ -59,6 +59,9 @@ class ViewController: UIViewController {
         
         textView.frame = CGRect.init(x: 10, y: 80, width: view.frame.width-20, height: view.frame.height-500)
         view.backgroundColor = UIColor.gray
+        textView.changedTextFucn { (textView, str) in
+            print(str)
+        }
     }
     
     override func didReceiveMemoryWarning() {

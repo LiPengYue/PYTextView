@@ -38,6 +38,9 @@ open class PYTextView: UIView, UITextViewDelegate {
     ///剩余 数字书描述的 边距
     open var remainWordsLabelEdg: UIEdgeInsets = .zero { didSet { layoutRemainWords() } }
     
+    /// 剩余字数label的高度 默认为 font（pingfangR： 14） height为 17pt
+    open var remainWordsLabelHeight: CGFloat = 17 { didSet { layoutRemainWords() } }
+    
     /// placeholder 边距
     open var placeholderLabelEdg: UIEdgeInsets = UIEdgeInsets.init(
         top: 0,
@@ -123,11 +126,13 @@ open class PYTextView: UIView, UITextViewDelegate {
     var remainWordsTop: NSLayoutConstraint?
     var remainWordsBottom: NSLayoutConstraint?
     
+    var textViewBottom: NSLayoutConstraint?
     private func setupView() {
         addSubview(textView)
         addSubview(placeholderLabel)
         addSubview(remainWordsLabel)
-        textView.edgsEqual(toItem: self, offset: 0)
+        textViewBottom = textView.edgsEqual(toItem: self, offset: 0).bottom
+        
         layoutPlaceholder()
         layoutRemainWords()
     }
@@ -168,10 +173,13 @@ open class PYTextView: UIView, UITextViewDelegate {
             self.removeConstraint(remainWordsBottom)
             self.removeConstraint(remainWordsTop)
         }
+        if let textViewBottom = textViewBottom {
+            self.removeConstraint(textViewBottom)
+        }
         
         let left =  textContainerInset.left + remainWordsLabelEdg.left
         let right = -textContainerInset.right - remainWordsLabelEdg.right
-        //        let top = textContainerInset.top + remainWordsLabelEdg.top
+        let top = remainWordsLabelEdg.top
         let bottom = -textContainerInset.bottom - remainWordsLabelEdg.bottom
         
         remainWordsLeft = remainWordsLabel.leftLessThanOrEqual(toItem: self, offset: left)
@@ -179,6 +187,9 @@ open class PYTextView: UIView, UITextViewDelegate {
         
         //        remainWordsTop = remainWordsLabel.topLessThanOrEqual(toItem: self, offset: top)
         remainWordsBottom = remainWordsLabel.bottomEqual(toItem: self, offset: bottom)
+        
+        let bottomMargin = remainWordsLabelHeight - bottom + top
+        textViewBottom = textView.bottomEqual(toItem: self, offset: -bottomMargin)
         self.updateConstraints()
     }
     private func didSetTextContainerInset() {
@@ -216,14 +227,13 @@ open class PYTextView: UIView, UITextViewDelegate {
             textView.text = NSString(string: textView.text).substring(with: NSRange.init(location: 0, length: maxWords))
             remainWordsLabel.attributedText = setBottomDescreptionCallBack?(0,maxWords)
             textView.undoManager?.removeAllActions()
-            
+            changedTextCallBack?(textView,textView.text)
         } else if (textView.markedTextRange == nil) {
             var length = (maxWords - textView.text.count)
             length = length < 0 ? 0 : length
             remainWordsLabel.attributedText = setBottomDescreptionCallBack?( length,maxWords)
+            changedTextCallBack?(textView,textView.text)
         }
-        
-        changedTextCallBack?(textView,textView.text)
     }
     @objc private func txtRemarkDidEndEditing(notif: Notification) {
         if let textView = notif.object as? UITextView {
@@ -268,8 +278,6 @@ open class PYTextView: UIView, UITextViewDelegate {
                 self.endEditing(true)
             }
         }
-        
-        //        }
     }
     
     
@@ -432,12 +440,19 @@ private extension UIView {
         return left
     }
     
-    func edgsEqual(toItem: UIView, offset: CGFloat) {
+    @discardableResult
+    func edgsEqual(toItem: UIView, offset: CGFloat) ->
+        (top: NSLayoutConstraint,
+        bottom: NSLayoutConstraint,
+        left: NSLayoutConstraint,
+        right: NSLayoutConstraint)
+    {
         translatesAutoresizingMaskIntoConstraints = false
-        let _ = leftEqual(toItem: toItem, offset: offset)
-        let _ = rightEqual(toItem: toItem, offset: -offset)
-        let _ = bottomEqual(toItem: toItem, offset: -offset)
-        let _ = topEqual(toItem: toItem, offset: offset)
+        let left = leftEqual(toItem: toItem, offset: offset)
+        let right = rightEqual(toItem: toItem, offset: -offset)
+        let bottom = bottomEqual(toItem: toItem, offset: -offset)
+        let top = topEqual(toItem: toItem, offset: offset)
+        return (top,bottom,left,right)
     }
 }
 
