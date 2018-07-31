@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PYTextView'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = '自定义TextView，有限制最大字数等功能'
 
 # This description is used to generate tags and improve search results.
