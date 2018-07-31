@@ -11,7 +11,7 @@ import UIKit
 open class PYTextView: UIView, UITextViewDelegate {
     
     /// 最大字符
-    open var maxWords: NSInteger = -1
+    public var maxWords: NSInteger = 0
     
     /// 向下滑动，关闭编辑
     open var isDownScrollEndEdit: Bool = false

@@ -42,7 +42,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		7B504DDB285EA2F6CDF8B3DA /* Pods_PYTextView_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PYTextView_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		929B005461BAA2EAA04B0209 /* PYTextView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = PYTextView.podspec; path = ../PYTextView.podspec; sourceTree = "<group>"; };
+		929B005461BAA2EAA04B0209 /* PYTextView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = PYTextView.podspec; path = ../PYTextView.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9FEF6B675489ADEC5624A513 /* Pods-PYTextView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PYTextView_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PYTextView_Tests/Pods-PYTextView_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		A4A623206D73066C2DDDE52C /* Pods_PYTextView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PYTextView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA87BC5C8A74C26C08B9787 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
