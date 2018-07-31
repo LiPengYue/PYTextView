@@ -10,6 +10,10 @@ import UIKit
 /// textView
 open class PYTextView: UIView, UITextViewDelegate {
     
+    open var placeholderLabel: UILabel { return self.placeholderLabel_prevate }
+    open var remainWordsLabel: UILabel { return self.remainWordsLabel_private }
+    open var textView: UITextView { return self.textView_private }
+    
     /// 最大字符
     open var maxWords: NSInteger = -1
     
@@ -282,7 +286,7 @@ open class PYTextView: UIView, UITextViewDelegate {
     
     
     //MARK: - property
-    lazy var textView: UITextView = {
+    private lazy var textView_private: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 14)
         
@@ -290,7 +294,7 @@ open class PYTextView: UIView, UITextViewDelegate {
         return textView
     }()
     ///懒加载 还可以输入 x 个字
-    lazy var remainWordsLabel: UILabel = {
+    private lazy var remainWordsLabel_private: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
@@ -303,7 +307,7 @@ open class PYTextView: UIView, UITextViewDelegate {
         return label
     }()
     ///懒加载 写几句评论吧...
-    lazy var placeholderLabel: UILabel = {
+    private lazy var placeholderLabel_prevate: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
@@ -455,7 +459,3 @@ private extension UIView {
         return (top,bottom,left,right)
     }
 }
-
-
-
-
