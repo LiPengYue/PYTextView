@@ -1,14 +1,15 @@
 //
-//  LPYTextView.swift
-//  FBSnapshotTestCase
+//  KRBaseTextView.swift
+//  koalareading
 //
-//  Created by 李鹏跃 on 2018/7/30.
+//  Created by 李鹏跃 on 2018/1/20.
+//  Copyright © 2018年 koalareading. All rights reserved.
 //
 
 import UIKit
-
+//https://www.cnblogs.com/alexcai/p/5052021.html
 /// textView
-open class PYTextView: UIView, UITextViewDelegate {
+class BaseTextView: UIView, UITextViewDelegate {
     
     open var placeholderLabel: UILabel { return self.placeholderLabel_prevate }
     open var remainWordsLabel: UILabel { return self.remainWordsLabel_private }
@@ -61,7 +62,7 @@ open class PYTextView: UIView, UITextViewDelegate {
     ///已经改变的时候调用
     var changedTextCallBack: ((_ textView: UITextView, _ text: String)->())?
     var txtRemarkDidEndEditingCallBack: ((_ textView: UITextView, _ text: String)->())?
-    var reachTheMaximumNumberOfWords: ((_ textView: UITextView,_ maxNumber: NSInteger)->())?
+    var aa: ((_ textView: UITextView,_ maxNumber: NSInteger)->())?
     
     /// 设置底部剩余输入字数的 描述
     ///
@@ -92,7 +93,7 @@ open class PYTextView: UIView, UITextViewDelegate {
     open func didEndEditingFunc (_ changedTextCallBack:((_ textView: UITextView, _ text: String)->())?) {
         self.txtRemarkDidEndEditingCallBack = changedTextCallBack
     }
-    
+    private var reachTheMaximumNumberOfWords:((_ textView: UITextView,_ maxNumber: NSInteger)->())?
     /// 输入字数到达最大值的时候调用
     ///
     /// - Parameter block: 回调
@@ -231,6 +232,7 @@ open class PYTextView: UIView, UITextViewDelegate {
             textView.text = NSString(string: textView.text).substring(with: NSRange.init(location: 0, length: maxWords))
             remainWordsLabel.attributedText = setBottomDescreptionCallBack?(0,maxWords)
             textView.undoManager?.removeAllActions()
+            reachTheMaximumNumberOfWords?(textView,maxWords)
             changedTextCallBack?(textView,textView.text)
         } else if (textView.markedTextRange == nil) {
             var length = (maxWords - textView.text.count)
@@ -322,7 +324,7 @@ open class PYTextView: UIView, UITextViewDelegate {
     
     private func setText(text: String) {
         textView.text = text
-        placeholderLabel.isHidden = true
+        placeholderLabel.isHidden = text.count > 0
         var surplusCount = (maxWords - text.count)
         surplusCount = surplusCount <= 0 ? 0 : surplusCount
         surplusCount = surplusCount >= maxWords ? maxWords : surplusCount
